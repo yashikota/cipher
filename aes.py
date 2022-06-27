@@ -1,15 +1,20 @@
 from Crypto.Cipher import AES
-from Crypto.Random import get_random_bytes
 
-text = b'This is a test'
+input_text = input("暗号化したい文字列を入力してください : ")
 
-key = get_random_bytes(16)
-print("key = " + str(key))
+text = input_text.encode("utf-8")
+nonce = bytes.fromhex("0011223344556677")
 
-cipher = AES.new(key, AES.MODE_EAX)
+key = bytes.fromhex("00112233445566778899aabbccddeeff")
+# print("key = " + str(key))
+
+encipher = AES.new(key, AES.MODE_CTR, nonce=nonce)
 
 print("text = " + str(text))
-chipher_text, tag = cipher.encrypt_and_digest(text)
-print("chipher_text = " + str(chipher_text))
-print("tag = " + str(tag))
+encrypt_text = encipher.encrypt(text)
+print("encrypt_text = " + str(encrypt_text))
 
+decipher =  AES.new(key=key, mode=AES.MODE_CTR , nonce=nonce)
+decrypt_text = decipher.decrypt(encrypt_text)
+print("decrypt_text = " + str(decrypt_text))
+print("decrypt_text = " + str(decrypt_text.decode("utf-8")))
