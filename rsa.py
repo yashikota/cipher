@@ -33,6 +33,7 @@ class RSA:
 
     def calc_n(self):
         self.n = self.p * self.q
+        print("n = " + str(self.n))
 
     def calc_r(self):
         self.r = (self.p - 1) * (self.q - 1)
