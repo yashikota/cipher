@@ -61,8 +61,12 @@ class RSA:
 
     def calc_d(self):
         """edを(p-1)(q-1)で割った余りがあまり1となる自然数dを求める"""
-        while(self.d * self.e % self.r != 1):
-            self.d += 1
+        # 拡張ユークリッド互除法
+        for i in range(2, self.r):
+            if self.gcd(i, self.r) == 1:
+                if (self.e * self.r + 1) % i == 0:
+                    self.d = (self.e * self.r + 1) // i
+                    break
         print("d = " + str(self.d))
 
     def encrypt(self, m):
